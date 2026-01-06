@@ -106,20 +106,19 @@ def decrypt_file():
     # Receiver-only operation
     # if app_state.role != "RECEIVER":
     #     return jsonify({"error": "Not in receiver mode"}), 403
-    
-    # if "file" not in request.files:
-    #     print("files missing")
-    #     return jsonify({"error": "Encrypted file missing"}), 400
+   
+    if "file" not in request.files:
+        print("files missing")
+        return jsonify({"error": "Encrypted file missing"}), 400
   
-    encrypted_file = request.form.get("file")
+    encrypted_file = request.files.get("file")
     encrypted_aes_key = request.form.get("encrypted_aes_key")
     # print("aes encrypt",encrypted_aes_key)
     signature = request.form.get("signature")
     # print("signature", signature)
     original_filename = request.form.get("original_filename", "received_file.pdf")
     
-    if not encrypted_file:
-        return jsonify({"error": "Encrypted file missing"}), 400
+  
     if not encrypted_aes_key or not signature:
         return jsonify({"error": "Missing key or signature"}), 400
     
